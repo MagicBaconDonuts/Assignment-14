@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+	<head>
+		<title>[[${channel.name}]]</title>
+	</head>
+	<body>
+	<div>
+		<span id="chatbox" th:each="mess : ${message}">
+			<span>[[${mess.message}]]</span>
+		</span>
+	</div>
+	<hr>
+	<form action="/saveMess" method="post">
+		<div>
+			<input type="text" value="Enter Text Here">	
+		</div>
+		<div>
+			<input type="submit" value="submitMess">
+		</div>
+	</form>
+		
+	</body>
+</html>
