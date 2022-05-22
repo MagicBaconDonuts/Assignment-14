@@ -10,14 +10,8 @@
 		</span>
 	</div>
 	<hr>
-	<form action="/saveMess" method="post">
-		<div>
-			<input type="text" value="Enter Text Here">	
-		</div>
-		<div>
-			<input type="submit" value="submitMess">
-		</div>
-	</form>
-		
+	<input type="hidden" th:value="${channel.id}" id="channelId">
+	<textarea name="chatbox" rows="3" cols="25" id="message">Enter Text</textarea>
+	<script type="text/javascript" src="/js/channel.js"></script>
 	</body>
 </html>

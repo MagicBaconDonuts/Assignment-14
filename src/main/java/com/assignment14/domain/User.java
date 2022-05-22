@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,6 +18,7 @@ public class User {
 	private Long id;
 	private String username;
 	private List<Message> message = new ArrayList<>();
+	private List<Channel> channel = new ArrayList<>();
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -39,5 +41,13 @@ public class User {
 	public void setMessage(List<Message> message) {
 		this.message = message;
 	}
+	@OneToMany(mappedBy = "user")
+	public List<Channel> getChannel() {
+		return channel;
+	}
+	public void setChannel(List<Channel> channel) {
+		this.channel = channel;
+	}
+	
 	
 }

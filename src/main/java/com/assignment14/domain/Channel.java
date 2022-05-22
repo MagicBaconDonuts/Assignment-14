@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,6 +19,8 @@ public class Channel {
 	private Long id;
 	private String name;
 	private List<Message> message = new ArrayList<>();
+	private User user;
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
@@ -39,9 +42,13 @@ public class Channel {
 	public void setMessage(List<Message> message) {
 		this.message = message;
 	}
-	@Override
-	public String toString() {
-		return "Channel [id=" + id + ", name=" + name + ", messages=" + message + "]";
+	@ManyToOne
+	public User getUser() {
+		return user;
 	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	
 }
