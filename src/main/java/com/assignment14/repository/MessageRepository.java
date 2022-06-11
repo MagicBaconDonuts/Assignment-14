@@ -1,4 +1,4 @@
-package com.assignment14.Service;
+package com.assignment14.repository;
 
 import java.util.List;
 
@@ -12,5 +12,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
 	
 	List<Message> findByChannel_id(Long channelId);
+
 
 }

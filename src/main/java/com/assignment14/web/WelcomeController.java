@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.assignment14.Service.ChannelService;
@@ -63,21 +64,42 @@ public class WelcomeController {
 	}
 	@PostMapping("/saveMess")
 	@ResponseBody
-	public Boolean saveMess(@RequestBody User user) throws JSONException {// save the messeage via the user and withing what channel they are in 
-		//find the user by username since its inquie and then I would add the message to the user and save the user and the message
+	public Boolean saveMess(@RequestBody User user){//note to self: I did it by user since I couldnt pass a message to many errors
 		String username = user.getUsername();
+		String[] usernameData = username.split(":");
+		String usernameInfo = null;
+		for(String data: usernameData) {
+			usernameInfo = data;
+		}
+		int lengthOfUsername = usernameInfo.length();
+		usernameInfo= usernameInfo.substring(1, lengthOfUsername - 2);
 		List<User> allUsers = userService.findAll();
 		User userPresent = null;
 		for(User checkUser: allUsers) {
-				JSONObject obj = new JSONObject(checkUser.getUsername());
-				System.out.println(obj.getString(username));
-			if(username == obj.getString(username)) {
+			String userInfo = checkUser.getUsername();
+			if(usernameInfo.equals(userInfo)) {
 				userPresent = checkUser;
+				break;
 			}
 		}
-		userPresent.getMessage().add(user.getMessage().get(0));
-		System.out.println(userPresent.toString());
+		String mess = user.getMessage().get(0).getMessage();
+		Message fullMess = new Message();
+		Optional<Channel> channelFound = channelService.findById(user.getId());// note to self im finding by user id(its actualuy the value of the channelid since passing in the channel to the user wosent working)
+		Channel fullChannel = channelFound.get();
+		fullMess.setChannel(fullChannel);
+		fullMess.setMessage(user.getMessage().get(0).getMessage());
+		fullMess.setUser(userPresent);
+		messageService.save(fullMess);
 		return true;
+	}
+	@PostMapping("/channel/{channelId}/getMessages")
+	@ResponseBody
+	public List<Message> getMessages(@PathVariable String channelId){
+		System.out.println(channelId);
+		String numOnly = channelId.replaceAll("[^0-9]", "");
+		System.out.println(numOnly);
+		Long channel = Long.parseLong(numOnly);
+		return messageService.findAllByChannelId(channel);
 	}
 	
 }

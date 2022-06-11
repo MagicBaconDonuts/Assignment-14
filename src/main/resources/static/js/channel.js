@@ -6,14 +6,14 @@ let shiftPress = false
 let enterPress = false
 function saveUserMessage(){
 	let channelId = document.querySelector('#channelId')
-				let user = {
-				'id': 1,
+			let user = {
+				'id': channelId.value,
 				'username' : test,
 				'message' : [{
 					'message' : inputText.value
 				}],
 				'channel' : [{
-					'channel': channelId.value
+					'id' : channelId.value
 				}]
 			}
 	let responseEntity = fetch('/saveMess', {
@@ -48,3 +48,23 @@ inputText.addEventListener('keyup', (e) => {
 		}
 	}
 })
+setInterval(getMessages, 500)
+function getMessages(){
+	let channelId = document.querySelector('#channelId')
+	fetch('/channel/${channelId}/getMessages', {
+		method : 'POST',
+		headers : {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(channelId.value)
+	})/*.then(response => response.json().then((data) => {
+		var messageBox = document.getElementById('messageBox')
+		messageBox.innerHTML = ''
+		for(var i = 0; i < data.legnth; i++){
+			var element = document.createElement('element')
+			element.innerHTML = data[i].messageName
+		}
+	}))*/
+}
+
+

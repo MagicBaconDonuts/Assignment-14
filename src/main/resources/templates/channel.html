@@ -2,16 +2,50 @@
 <html xmlns:th="http://thymeleaf.org">
 	<head>
 		<title>[[${channel.name}]]</title>
+		<script type="text/javascript">
+			var userCheck = sessionStorage.getItem('user')
+			if(userCheck === null){
+				window.location.replace('http://localhost:8080/welcome')
+			}
+		</script>
 	</head>
 	<body>
+	<div id="messageBox">
+	</div>
 	<div>
 		<span id="chatbox" th:each="mess : ${message}">
-			<span>[[${mess.message}]]</span>
+			<span>[[${mess.user.username}]] : [[${mess.message}]] <br> </span>
 		</span>
 	</div>
 	<hr>
 	<input type="hidden" th:value="${channel.id}" id="channelId">
 	<textarea name="chatbox" rows="3" cols="25" id="message">Enter Text</textarea>
 	<script type="text/javascript" src="/js/channel.js"></script>
+	<script type="text/javascript">
+	setInterval(getMessages, 5000)
+	const string = window.location.href;
+	function getMessages(){
+		let channelId = string.substring(string.lastIndexOf("/") + 1, string.length);
+		var list = []
+		list = fetch('/channel/${channelId}/getMessages', {
+			method : 'POST',
+			headers : {
+				'Content-Type': 'application/json'
+			}
+		}).then(response => response.json()).then(function (data) {
+			addMessage(data)
+		})
+	}
+	function addMessage(data){
+		var messageBox = document.getElementById('messageBox')
+		messageBox.innerHTML = ''
+		console.log(data)
+		for(var i = 0; i < data.legnth; i++){
+			var element = document.createElement('element')
+			element.innerHTML = data[i].messageName + ": " + data[i].messageContent;
+			messageBox.appendChild(element)
+		}
+	}
+	</script>
 	</body>
 </html>

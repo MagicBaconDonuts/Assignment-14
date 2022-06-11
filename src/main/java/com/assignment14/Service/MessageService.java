@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.assignment14.domain.Message;
+import com.assignment14.repository.MessageRepository;
 
 @Service
 public class MessageService {
@@ -23,4 +24,5 @@ public class MessageService {
 	public List<Message> findAllByChannelId(Long channelId) {
 		return messageRepo.findByChannel_id(channelId);
 	}
+
 }

@@ -41,6 +41,7 @@ public class User {
 	public void setMessage(List<Message> message) {
 		this.message = message;
 	}
+	//one user can have many channels, SO one CHannel can have many users
 	@OneToMany(mappedBy = "user")
 	public List<Channel> getChannel() {
 		return channel;
