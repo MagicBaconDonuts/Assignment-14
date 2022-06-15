@@ -52,15 +52,13 @@ inputText.addEventListener('keyup', (e) => {
 function getMessages(){
 	const queryString = window.location.href;
 	let channelId = queryString.substring(queryString.lastIndexOf("/") + 1, queryString.length);
-	let message = [];
-	message = fetch('/channel/'+ new URLSearchParams({channelId})+'/getMessages', {
+	fetch('/channel/'+ new URLSearchParams({channelId})+'/getMessages', {
 		method : 'POST',
 		headers : {
 			'Content-Type': 'application/json'
 		}
 	}).then(response => response.json()).then(function (data){ 
 			appendMessages(data)
-		
 	})
 	
 	
@@ -68,7 +66,7 @@ function getMessages(){
 	function appendMessages(data){
 		var messageBox = document.getElementById('messageBox')
 		messageBox.innerHTML = ''
-		for(var i = 0; i < data.legnth; i++){
+		for(var i = 0; i < data.length; i++){
 			var div = document.createElement('div');
 			div.innerHTML = data[i].messageName + ": " + data[i].messageContent;
 			messageBox.appendChild(div);
