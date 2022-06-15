@@ -12,6 +12,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
 	
 	List<Message> findByChannel_id(Long channelId);
+	@Query(value ="SELECT * FROM MESSAGE WHERE channel_Id = ?", nativeQuery = true)
+	List<Message> findAllByChannelId(Long channelId);
 
 
 }

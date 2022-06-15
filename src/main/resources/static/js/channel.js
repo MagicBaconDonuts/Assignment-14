@@ -5,15 +5,16 @@ console.log(inputText.value)
 let shiftPress = false
 let enterPress = false
 function saveUserMessage(){
-	let channelId = document.querySelector('#channelId')
+	const queryString = window.location.href;
+	let channelId = queryString.substring(queryString.lastIndexOf("/") + 1, queryString.length);
 			let user = {
-				'id': channelId.value,
+				'id': channelId,
 				'username' : test,
 				'message' : [{
 					'message' : inputText.value
 				}],
 				'channel' : [{
-					'id' : channelId.value
+					'id' : channelId
 				}]
 			}
 	let responseEntity = fetch('/saveMess', {
@@ -48,23 +49,29 @@ inputText.addEventListener('keyup', (e) => {
 		}
 	}
 })
-setInterval(getMessages, 500)
 function getMessages(){
-	let channelId = document.querySelector('#channelId')
-	fetch('/channel/${channelId}/getMessages', {
+	const queryString = window.location.href;
+	let channelId = queryString.substring(queryString.lastIndexOf("/") + 1, queryString.length);
+	let message = [];
+	message = fetch('/channel/'+ new URLSearchParams({channelId})+'/getMessages', {
 		method : 'POST',
 		headers : {
 			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(channelId.value)
-	})/*.then(response => response.json().then((data) => {
+		}
+	}).then(response => response.json()).then(function (data){ 
+			appendMessages(data)
+		
+	})
+	
+	
+}
+	function appendMessages(data){
 		var messageBox = document.getElementById('messageBox')
 		messageBox.innerHTML = ''
 		for(var i = 0; i < data.legnth; i++){
-			var element = document.createElement('element')
-			element.innerHTML = data[i].messageName
+			var div = document.createElement('div');
+			div.innerHTML = data[i].messageName + ": " + data[i].messageContent;
+			messageBox.appendChild(div);
 		}
-	}))*/
-}
-
-
+	}
+setInterval(getMessages, 5000)

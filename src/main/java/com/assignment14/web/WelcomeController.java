@@ -20,6 +20,7 @@ import com.assignment14.Service.MessageService;
 import com.assignment14.Service.UserService;
 import com.assignment14.domain.Channel;
 import com.assignment14.domain.Message;
+import com.assignment14.domain.MessageDTO;
 import com.assignment14.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -94,12 +95,11 @@ public class WelcomeController {
 	}
 	@PostMapping("/channel/{channelId}/getMessages")
 	@ResponseBody
-	public List<Message> getMessages(@PathVariable String channelId){
-		System.out.println(channelId);
+	public List<MessageDTO> getMessages(@PathVariable String channelId){
 		String numOnly = channelId.replaceAll("[^0-9]", "");
-		System.out.println(numOnly);
 		Long channel = Long.parseLong(numOnly);
-		return messageService.findAllByChannelId(channel);
+		List<Message> listOfMessages = messageService.findAllByChannelId(channel);
+		return messageService.findAllByChannelIdDTO(channel);
 	}
 	
 }
