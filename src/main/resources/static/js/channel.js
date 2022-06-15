@@ -72,4 +72,4 @@ function getMessages(){
 			messageBox.appendChild(div);
 		}
 	}
-setInterval(getMessages, 5000)
+setInterval(getMessages, 500)
