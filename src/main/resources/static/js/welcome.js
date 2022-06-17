@@ -1,7 +1,19 @@
-let username = prompt('Enter your name')
-let user = {
-	'username' : username
-}
+var userCheck = sessionStorage.getItem('user')
+let username
+let user
+if(userCheck === null){
+	username = prompt('Enter your name')
+	while( username ===  null || username == ""){
+	username = prompt("Enter Your Name")
+	} 
+	user = {
+		'username' : username
+	}
+	saveUserMethod()
+	sessionStorage.setItem('user', JSON.stringify(user))
+	} else {
+		user = JSON.parse(sessionStorage.getItem("user"))
+	}
 async function saveUserMethod(){
 	let responseEntity = await fetch("/saveUser", {
 		method:'POST',
@@ -15,6 +27,3 @@ async function saveUserMethod(){
 			console.log('User Created')
 		}
 }
-saveUserMethod()
-
-sessionStorage.setItem('user', JSON.stringify(user))

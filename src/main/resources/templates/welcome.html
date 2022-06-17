@@ -4,12 +4,20 @@
 		<title>Join A Channel</title>
 	</head>
 	<body>
-		<h1>Channels</h1>
+		<div>
+			<h1>Channels</h1>
+		</div>
 		<div th:each="channel : ${channels}">
 			<a th:href="@{/channel/{channelId}(channelId=${channel.id})}">
 				<span th:text="${channel.name}"></span>			
 			</a>
 		</div>
+		<form action="/createChannel" method="post">
+			<div>
+				Create Channel <input type="text" th:field="${channel.name}">
+			</div>
+			<input type="submit" value="Create Channel" />
+		</form>
 		<script type="text/javascript" src="/js/welcome.js"></script>
 	</body>
 </html>

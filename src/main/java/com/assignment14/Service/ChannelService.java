@@ -24,7 +24,8 @@ public class ChannelService {
 		return channelRepo.findById(channelId);
 	}
 
-	public void save(Optional<Channel> channel) {
-		channelRepo.save(channel);
+	public Channel save(Channel channel) {
+		return channelRepo.save(channel);
 	}
+
 }

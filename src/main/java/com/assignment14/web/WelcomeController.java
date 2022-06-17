@@ -39,7 +39,9 @@ public class WelcomeController {
 	@GetMapping("/welcome")
 	public String getWelcomePage(ModelMap model) {
 		List<Channel> allChannels = channelService.findAll();
+		Channel channel = new Channel();
 		model.put("channels", allChannels);
+		model.put("channel", channel);
 		return "welcome";
 	}
 	@GetMapping("/channel/{channelId}")
@@ -100,6 +102,17 @@ public class WelcomeController {
 		Long channel = Long.parseLong(numOnly);
 		List<Message> listOfMessages = messageService.findAllByChannelId(channel);
 		return messageService.findAllByChannelIdDTO(channel);
+	}
+	
+	@GetMapping("")
+	public String redirectToWelcome() {
+		return "redirect:/welcome";
+	}
+	
+	@PostMapping("/createChannel")
+	public String createChannel(Channel channel) {
+		channelService.save(channel);
+		return "redirect:/welcome";
 	}
 	
 }
