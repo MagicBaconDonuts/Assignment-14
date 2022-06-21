@@ -68,31 +68,7 @@ public class WelcomeController {
 	@PostMapping("/saveMess")
 	@ResponseBody
 	public Boolean saveMess(@RequestBody User user){//note to self: I did it by user since I couldnt pass a message to many errors
-		String username = user.getUsername();
-		String[] usernameData = username.split(":");
-		String usernameInfo = null;
-		for(String data: usernameData) {
-			usernameInfo = data;
-		}
-		int lengthOfUsername = usernameInfo.length();
-		usernameInfo= usernameInfo.substring(1, lengthOfUsername - 2);
-		List<User> allUsers = userService.findAll();
-		User userPresent = null;
-		for(User checkUser: allUsers) {
-			String userInfo = checkUser.getUsername();
-			if(usernameInfo.equals(userInfo)) {
-				userPresent = checkUser;
-				break;
-			}
-		}
-		String mess = user.getMessage().get(0).getMessage();
-		Message fullMess = new Message();
-		Optional<Channel> channelFound = channelService.findById(user.getId());// note to self im finding by user id(its actualuy the value of the channelid since passing in the channel to the user wosent working)
-		Channel fullChannel = channelFound.get();
-		fullMess.setChannel(fullChannel);
-		fullMess.setMessage(user.getMessage().get(0).getMessage());
-		fullMess.setUser(userPresent);
-		messageService.save(fullMess);
+		messageService.saveMess(user);
 		return true;
 	}
 	@PostMapping("/channel/{channelId}/getMessages")
